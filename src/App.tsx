@@ -39,7 +39,7 @@ function HomePage() {
       </AnimatedSection>
       <AnimatedSection delay={400}>
         <section className="bg-black py-16">
-          <div className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
             <Testimonials />
             <FAQ />
           </div>
