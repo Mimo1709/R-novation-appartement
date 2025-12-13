@@ -32,7 +32,7 @@ function HomePage() {
       <Stats />
       <AnimatedSection delay={200}>
         <ProcessAndService />
-        <ServicesCircular />
+        
       </AnimatedSection>
       <AnimatedSection delay={300}>
         <Realisations />
