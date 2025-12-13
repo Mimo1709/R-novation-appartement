@@ -13,11 +13,11 @@ import ServicesCircular from "./components/ServicesCircular";
 
 function MainLayout() {
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col">
+    <div className="min-h-screen bg-black text-white flex flex-col w-full">
       <Navbar />
-      <div className="flex-1">
-        <Outlet /> {/* ici on rendra HomePage ou DevisPage */}
-      </div>
+      <main className="flex-1 w-full">
+        <Outlet />
+      </main>
       <Footer />
     </div>
   );
