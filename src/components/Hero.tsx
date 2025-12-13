@@ -42,7 +42,7 @@ export default function Hero({ onDevisClick }: HeroProps) {
       <div className="hero-content relative z-20 flex items-center justify-center text-center px-4 pt-20 md:pt-24">
         <div className="max-w-md md:max-w-xl">
           <h1 className="text-3xl md:text-5xl font-bold uppercase tracking-wider leading-tight">
-            Rénovation d&apos;Appartements à Paris
+            Rénovation d&apos;Appartements à Paris et chocolat
           </h1>
           <p className="mt-3 mb-4 text-base md:text-xl">
             Excellence depuis 1998
