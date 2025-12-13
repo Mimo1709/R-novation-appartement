@@ -17,17 +17,15 @@ export default function Hero({ onDevisClick }: HeroProps) {
   ].map((url) => `${url}?auto=format&fit=crop&w=300&q=80`);
 
   return (
-    <div className="relative hero h-[86vh] bg-black text-white overflow-hidden">
-      {/* BackgroundPaths en fond */}
+    <div className="relative hero min-h-[80vh] md:h-[86vh] bg-black text-white overflow-hidden">
       <BackgroundPaths />
 
-      {/* Trail d’images au-dessus du fond */}
       <div ref={trailRef} className="absolute inset-0 z-10 pointer-events-none">
         <ImageTrail containerRef={trailRef}>
           {images.map((url, index) => (
             <div
               key={index}
-              className="relative w-70 h-38 overflow-hidden rounded-2xl opacity-95"
+              className="relative w-36 h-24 md:w-72 md:h-40 overflow-hidden rounded-2xl opacity-95"
             >
               <img
                 src={url}
@@ -39,19 +37,19 @@ export default function Hero({ onDevisClick }: HeroProps) {
         </ImageTrail>
       </div>
 
-      {/* Overlay sombre */}
       <div className="hero-overlay bg-black bg-opacity-70" />
 
-      {/* Contenu texte au-dessus de tout */}
-      <div className="hero-content text-center relative z-20 items-start pt-16 md:pt-20">
-        <div className="max-w-md">
-          <h1 className="text-5xl font-bold uppercase tracking-wider">
+      <div className="hero-content relative z-20 flex items-center justify-center text-center px-4 pt-20 md:pt-24">
+        <div className="max-w-md md:max-w-xl">
+          <h1 className="text-3xl md:text-5xl font-bold uppercase tracking-wider leading-tight">
             Rénovation d&apos;Appartements à Paris
           </h1>
-          <p className="mt-4 mb-4 text-xl">Excellence depuis 1998</p>
+          <p className="mt-3 mb-4 text-base md:text-xl">
+            Excellence depuis 1998
+          </p>
           <button
             onClick={onDevisClick}
-            className="btn btn-outline btn-lg mt-2"
+            className="btn btn-outline btn-md md:btn-lg mt-2"
           >
             Devis Gratuit
           </button>
