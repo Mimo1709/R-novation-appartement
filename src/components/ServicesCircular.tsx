@@ -102,7 +102,7 @@ export default function ServicesCircular() {
           </p>
         </div>
 
-        <div className="w-full h-[480px] sm:h-[520px] md:h-[560px] lg:h-[600px] overflow-hidden">
+        <div className="w-full h-[400px] md:h-[560px] lg:h-[600px] overflow-hidden">
           <CircularGallery
             items={servicesItems}
             radius={550}

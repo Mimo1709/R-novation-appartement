@@ -31,9 +31,24 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
   ({ items, className, radius = 600, autoRotateSpeed = 0.05, ...props }, ref) => {
     const [rotation, setRotation] = useState(0);
     const [isDragging, setIsDragging] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+    const [responsiveRadius, setResponsiveRadius] = useState(radius);
     const dragStartX = useRef(0);
     const dragStartRotation = useRef(0);
     const animationFrameRef = useRef<number | null>(null);
+
+    // Détecter mobile et ajuster radius
+    useEffect(() => {
+      const handleResize = () => {
+        const mobile = window.innerWidth < 768;
+        setIsMobile(mobile);
+        setResponsiveRadius(mobile ? 250 : radius);
+      };
+
+      handleResize();
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }, [radius]);
 
     // Auto-rotation en continu (uniquement quand on ne drag pas)
     useEffect(() => {
@@ -61,7 +76,7 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
     const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
       if (!isDragging) return;
       const deltaX = e.clientX - dragStartX.current;
-      setRotation(dragStartRotation.current + deltaX * 0.3); // sensibilité
+      setRotation(dragStartRotation.current + deltaX * 0.3);
     };
 
     const handleMouseUp = () => {
@@ -131,14 +146,15 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
                 key={item.photo.url}
                 role="group"
                 aria-label={item.common}
-                // Mobile RÉDUIT (140x200), Desktop NORMAL (300x400)
-                className="absolute w-[140px] h-[200px] md:w-[300px] md:h-[400px]"
+                // Mobile 160x240, Desktop 300x400
+                className="absolute w-[160px] h-[240px] md:w-[300px] md:h-[400px]"
                 style={{
-                  transform: `rotateY(${itemAngle}deg) translateZ(${radius}px)`,
+                  transform: `rotateY(${itemAngle}deg) translateZ(${responsiveRadius}px)`,
                   left: "50%",
                   top: "50%",
-                  marginLeft: "-150px",
-                  marginTop: "-200px",
+                  // MARGES : Mobile -80/-120, Desktop -150/-200 (COMME TON CODE ORIGINAL)
+                  marginLeft: isMobile ? "-80px" : "-150px",
+                  marginTop: isMobile ? "-120px" : "-200px",
                   opacity,
                   transition: "opacity 0.3s linear",
                 }}
@@ -150,14 +166,14 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
                     className="absolute inset-0 w-full h-full object-cover"
                     style={{ objectPosition: item.photo.pos || "center" }}
                   />
-                  <div className="absolute bottom-0 left-0 w-full p-2 md:p-4 bg-gradient-to-t from-black/80 to-transparent text-white">
-                    <h2 className="text-sm md:text-xl font-bold">
+                  <div className="absolute bottom-0 left-0 w-full p-3 md:p-4 bg-gradient-to-t from-black/80 to-transparent text-white">
+                    <h2 className="text-base md:text-xl font-bold">
                       {item.common}
                     </h2>
-                    <em className="text-[10px] md:text-sm italic opacity-80">
+                    <em className="text-xs md:text-sm italic opacity-80">
                       {item.binomial}
                     </em>
-                    <p className="text-[8px] md:text-xs mt-1 md:mt-2 opacity-70">
+                    <p className="text-[9px] md:text-xs mt-1.5 md:mt-2 opacity-70">
                       {item.photo.by}
                     </p>
                   </div>
