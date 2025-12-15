@@ -86,24 +86,23 @@ const servicesItems: GalleryItem[] = [
 
 export default function ServicesCircular() {
   return (
-    <section className="w-full bg-black text-white py-20">
+    <section className="w-full bg-black text-white py-12 md:py-20 pb-20 md:pb-28">
       <div className="max-w-6xl mx-auto px-4">
-        {/* Titre de section, même style que "Nos réalisations" */}
-        <div className="max-w-2xl mx-auto text-center mb-12">
+        <div className="max-w-2xl mx-auto text-center mb-4 md:mb-6">
           <div className="border py-1 px-4 rounded-lg text-xs uppercase tracking-wide inline-block">
             Nos services
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mt-5">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mt-4 md:mt-5">
             Tous les espaces et corps de métier
           </h2>
-          <p className="mt-4 text-sm md:text-base opacity-75">
+          <p className="mt-3 md:mt-4 text-sm md:text-base opacity-75 px-2">
             Faites tourner la galerie pour découvrir nos services : plomberie,
             revêtements de sol, électricité, peinture et toutes les pièces de
             votre appartement.
           </p>
         </div>
 
-        <div className="w-full h-[420px] md:h-[480px] lg:h-[520px]">
+        <div className="w-full h-[550px] sm:h-[600px] md:h-[650px] lg:h-[700px] overflow-hidden">
           <CircularGallery
             items={servicesItems}
             radius={550}
