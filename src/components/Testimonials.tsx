@@ -16,7 +16,7 @@ const testimonials: Testimonial[] = [
   },
   {
     text:
-      "Ils ont refait notre salle de bain et cuisine. Chantier propre, bon suivi, et de très bonnes idées d’optimisation d’espace.",
+      "Ils ont refait notre salle de bain et cuisine. Chantier propre, bon suivi, et de très bonnes idées d'optimisation d'espace.",
     image:
       "https://images.unsplash.com/photo-1525130413817-d45c1d127c42?auto=format&fit=crop&w=200&q=80",
     name: "Marc et Sophie L.",
@@ -32,7 +32,7 @@ const testimonials: Testimonial[] = [
   },
   {
     text:
-      "Très satisfait du résultat : parquet, peinture, électricité refaits à neuf. L’appartement a pris énormément de valeur.",
+      "Très satisfait du résultat : parquet, peinture, électricité refaits à neuf. L'appartement a pris énormément de valeur.",
     image:
       "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=200&q=80",
     name: "Nadia R.",
@@ -76,7 +76,7 @@ const testimonials: Testimonial[] = [
     image:
       "https://images.unsplash.com/photo-1546456073-92b9f0a8d412?auto=format&fit=crop&w=200&q=80",
     name: "Camille B.",
-    role: "Architecte d’intérieur",
+    role: "Architecte d'intérieur",
   },
 ];
 
@@ -86,7 +86,7 @@ const thirdColumn = testimonials.slice(6, 9);
 
 export default function Testimonials() {
   return (
-    <div className="w-full">
+    <div className="w-full py-8 md:py-0">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -96,24 +96,24 @@ export default function Testimonials() {
           ease: [0.16, 1, 0.3, 1],
         }}
         viewport={{ once: true }}
-        className="flex flex-col items-center justify-center max-w-[640px] mx-auto"
+        className="flex flex-col items-center justify-center max-w-[640px] mx-auto px-4"
       >
         <div className="flex justify-center">
-          <div className="border py-1 px-4 rounded-lg text-xs uppercase tracking-wide">
+          <div className="border py-1 px-3 md:px-4 rounded-lg text-[10px] md:text-xs uppercase tracking-wide">
             Témoignages clients
           </div>
         </div>
 
-        <h2 className="text-2xl md:text-3xl font-bold tracking-tighter mt-5 text-center">
+        <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold tracking-tighter mt-3 md:mt-5 text-center">
           Ils nous ont confié leur appartement
         </h2>
-        <p className="text-center mt-4 opacity-75 text-sm">
-          Avis de propriétaires et d’investisseurs qui ont réalisé leurs
+        <p className="text-center mt-2 md:mt-4 opacity-75 text-xs md:text-sm">
+          Avis de propriétaires et d'investisseurs qui ont réalisé leurs
           travaux avec nous.
         </p>
       </motion.div>
 
-      <div className="flex justify-center gap-6 mt-8 [mask-image:linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)] max-h-[640px] overflow-hidden">
+      <div className="flex justify-center gap-3 md:gap-6 mt-6 md:mt-8 [mask-image:linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)] max-h-[400px] md:max-h-[640px] overflow-hidden px-4 md:px-0">
         <TestimonialsColumn testimonials={firstColumn} duration={18} />
         <TestimonialsColumn
           testimonials={secondColumn}
