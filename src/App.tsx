@@ -9,7 +9,7 @@ import Testimonials from "./components/Testimonials";
 import FAQ from "./components/FAQ";
 import Footer from "./components/Footer";
 import DevisPage from "./components/DevisPage";
-import ServicesCircular from "./components/ServicesCircular";
+
 
 function MainLayout() {
   return (
@@ -32,7 +32,7 @@ function HomePage() {
       <Stats />
       <AnimatedSection delay={200}>
         <ProcessAndService />
-        
+    
       </AnimatedSection>
       <AnimatedSection delay={300}>
         <Realisations />
