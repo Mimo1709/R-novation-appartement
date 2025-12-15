@@ -31,37 +31,11 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
   ({ items, className, radius = 600, autoRotateSpeed = 0.05, ...props }, ref) => {
     const [rotation, setRotation] = useState(0);
     const [isDragging, setIsDragging] = useState(false);
-    const [responsiveRadius, setResponsiveRadius] = useState(radius);
-    const [responsivePerspective, setResponsivePerspective] = useState(2000);
     const dragStartX = useRef(0);
     const dragStartRotation = useRef(0);
     const animationFrameRef = useRef<number | null>(null);
 
-    // Ajustement responsive du radius et de la perspective
-    useEffect(() => {
-      const handleResize = () => {
-        const width = window.innerWidth;
-        if (width < 640) {
-          // mobile
-          setResponsiveRadius(280);
-          setResponsivePerspective(800);
-        } else if (width < 1024) {
-          // tablet
-          setResponsiveRadius(400);
-          setResponsivePerspective(1200);
-        } else {
-          // desktop
-          setResponsiveRadius(radius);
-          setResponsivePerspective(2000);
-        }
-      };
-
-      handleResize();
-      window.addEventListener("resize", handleResize);
-      return () => window.removeEventListener("resize", handleResize);
-    }, [radius]);
-
-    // Auto-rotation
+    // Auto-rotation en continu (uniquement quand on ne drag pas)
     useEffect(() => {
       const autoRotate = () => {
         if (!isDragging) {
@@ -87,10 +61,14 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
     const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
       if (!isDragging) return;
       const deltaX = e.clientX - dragStartX.current;
-      setRotation(dragStartRotation.current + deltaX * 0.3);
+      setRotation(dragStartRotation.current + deltaX * 0.3); // sensibilité
     };
 
     const handleMouseUp = () => {
+      setIsDragging(false);
+    };
+
+    const handleMouseLeave = () => {
       setIsDragging(false);
     };
 
@@ -122,11 +100,11 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
           "relative w-full h-full flex items-center justify-center select-none",
           className
         )}
-        style={{ perspective: `${responsivePerspective}px` }}
+        style={{ perspective: "2000px" }}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
+        onMouseLeave={handleMouseLeave}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
@@ -153,13 +131,14 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
                 key={item.photo.url}
                 role="group"
                 aria-label={item.common}
-                className="absolute w-[200px] h-[280px] sm:w-[240px] sm:h-[320px] md:w-[280px] md:h-[370px] lg:w-[300px] lg:h-[400px]"
+                // Mobile RÉDUIT (140x200), Desktop NORMAL (300x400)
+                className="absolute w-[140px] h-[200px] md:w-[300px] md:h-[400px]"
                 style={{
-                  transform: `rotateY(${itemAngle}deg) translateZ(${responsiveRadius}px)`,
+                  transform: `rotateY(${itemAngle}deg) translateZ(${radius}px)`,
                   left: "50%",
                   top: "50%",
-                  marginLeft: "-100px",
-                  marginTop: "-160px",
+                  marginLeft: "-150px",
+                  marginTop: "-200px",
                   opacity,
                   transition: "opacity 0.3s linear",
                 }}
@@ -171,14 +150,14 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
                     className="absolute inset-0 w-full h-full object-cover"
                     style={{ objectPosition: item.photo.pos || "center" }}
                   />
-                  <div className="absolute bottom-0 left-0 w-full p-3 md:p-4 bg-gradient-to-t from-black/80 to-transparent text-white">
-                    <h2 className="text-base sm:text-lg md:text-xl font-bold">
+                  <div className="absolute bottom-0 left-0 w-full p-2 md:p-4 bg-gradient-to-t from-black/80 to-transparent text-white">
+                    <h2 className="text-sm md:text-xl font-bold">
                       {item.common}
                     </h2>
-                    <em className="text-xs sm:text-sm italic opacity-80">
+                    <em className="text-[10px] md:text-sm italic opacity-80">
                       {item.binomial}
                     </em>
-                    <p className="text-[10px] sm:text-xs mt-1 md:mt-2 opacity-70">
+                    <p className="text-[8px] md:text-xs mt-1 md:mt-2 opacity-70">
                       {item.photo.by}
                     </p>
                   </div>

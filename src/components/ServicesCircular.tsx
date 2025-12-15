@@ -86,7 +86,7 @@ const servicesItems: GalleryItem[] = [
 
 export default function ServicesCircular() {
   return (
-    <section className="w-full bg-black text-white py-12 md:py-20 pb-20 md:pb-28">
+    <section className="w-full bg-black text-white py-12 md:py-20">
       <div className="max-w-6xl mx-auto px-4">
         <div className="max-w-2xl mx-auto text-center mb-4 md:mb-6">
           <div className="border py-1 px-4 rounded-lg text-xs uppercase tracking-wide inline-block">
@@ -102,7 +102,7 @@ export default function ServicesCircular() {
           </p>
         </div>
 
-        <div className="w-full h-[550px] sm:h-[600px] md:h-[650px] lg:h-[700px] overflow-hidden">
+        <div className="w-full h-[480px] sm:h-[520px] md:h-[560px] lg:h-[600px] overflow-hidden">
           <CircularGallery
             items={servicesItems}
             radius={550}
