@@ -10,6 +10,8 @@ import FAQ from "./components/FAQ";
 import Footer from "./components/Footer";
 import DevisPage from "./components/DevisPage";
 import ServicesCircular from "./components/ServicesCircular";
+import ServicesPage from './pages/ServicesPage';
+
 
 function MainLayout() {
   return (
@@ -22,6 +24,7 @@ function MainLayout() {
     </div>
   );
 }
+
 
 function HomePage() {
   const navigate = useNavigate();
@@ -49,12 +52,14 @@ function HomePage() {
   );
 }
 
+
 export default function App() {
   return (
     <Routes>
       <Route element={<MainLayout />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/devis" element={<DevisPage />} />
+        <Route path="/services" element={<ServicesPage />} />
       </Route>
     </Routes>
   );

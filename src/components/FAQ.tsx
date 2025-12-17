@@ -99,7 +99,7 @@ export default function FAQ() {
           >
 
             <label className="text-base font-medium opacity-90" htmlFor="faq-comment">
-              Vous souhaitez nous laisser un commentaire à propos de la FAQ ?
+              Posez-nous vos questions
             </label>
             <div className="flex gap-2">
               <input

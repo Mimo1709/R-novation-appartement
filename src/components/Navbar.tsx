@@ -2,9 +2,11 @@ import { Home, Briefcase, Phone, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const navigate = useNavigate();
+
 
   const handleContactClick = () => {
     setMenuOpen(false);
@@ -14,11 +16,19 @@ export default function Navbar() {
     }
   };
 
+
   const handleHomeClick = () => {
     setMenuOpen(false);
-    navigate("/"); // retourne à la page d'accueil
+    navigate("/");
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  const handleServicesClick = () => {
+    setMenuOpen(false);
+    navigate("/services");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
 
   return (
     <>
@@ -42,9 +52,12 @@ export default function Navbar() {
               </button>
             </li>
             <li>
-              <a className="flex items-center gap-2">
+              <button
+                onClick={handleServicesClick}
+                className="flex items-center gap-2 btn-ghost"
+              >
                 <Briefcase size={18} /> Services
-              </a>
+              </button>
             </li>
             <li>
               <button
@@ -66,6 +79,7 @@ export default function Navbar() {
         </div>
       </nav>
 
+
       {menuOpen && (
         <div className="fixed top-16 left-0 w-full bg-base-100 z-40 lg:hidden">
           <ul className="menu p-4">
@@ -78,9 +92,12 @@ export default function Navbar() {
               </button>
             </li>
             <li>
-              <a className="flex items-center gap-2">
+              <button
+                onClick={handleServicesClick}
+                className="flex items-center gap-2 btn-ghost w-full text-left"
+              >
                 <Briefcase size={18} /> Services
-              </a>
+              </button>
             </li>
             <li>
               <button

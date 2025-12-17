@@ -2,7 +2,7 @@ import Counter from './Counter';
 
 export default function Stats() {
   const stats = [
-    { value: 13, suffix: '+', label: "Années d'expérience" },
+    { value: 15, suffix: '+', label: "Années d'expérience" },
     { value: 4352, suffix: '+', label: 'Projets réalisés' },
     { value: 100, suffix: '%', label: 'Clients satisfaits' },
     { value: 10, suffix: ' ans', label: 'Garantie décennale' },

@@ -1,15 +1,14 @@
-// src/components/NosRealisations.tsx
 import { ImageComparison } from "./ui/image-comparison-slider";
 
 export default function NosRealisations() {
   const projects = [
     {
-      title: "Rénovation salon haussmannien",
+      title: "Cuisine moderne minimaliste",
       location: "Paris 16ᵉ",
       before:
         "https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=1400&q=80",
       after:
-        "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1400&q=80",
+        "/image/CUISINE_AVANT1.png",
     },
     {
       title: "Transformation studio en 2 pièces",
@@ -17,15 +16,15 @@ export default function NosRealisations() {
       before:
         "https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=1400&q=80",
       after:
-        "https://images.unsplash.com/photo-1505691723518-36a5ac3be353?auto=format&fit=crop&w=1400&q=80",
+        "/image/SALON_AVANT1.jpg",
     },
     {
       title: "Cuisine ouverte sur séjour",
       location: "Boulogne-Billancourt",
       before:
-        "https://images.unsplash.com/photo-1505691723518-36a5ac3be353?auto=format&fit=crop&w=1400&q=80",
+        "/image/CHAMBRE_APRES.jpg",
       after:
-        "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1400&q=80",
+        "/image/CHAMBRE_AVANT.jpg",
     },
   ];
 
