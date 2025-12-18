@@ -14,6 +14,8 @@ export default function DevisPage() {
   const [currentStep, setCurrentStep] = useState<Step>(1);
   const [success, setSuccess] = useState(false);
   const [errors, setErrors] = useState<ValidationErrors>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   const [formData, setFormData] = useState({
     nom: "",
@@ -41,7 +43,6 @@ export default function DevisPage() {
 
   const totalSteps: Step = 6;
 
-  // Validation des champs requis par étape
   const validateStep = (step: Step): boolean => {
     const newErrors: ValidationErrors = {};
 
@@ -59,7 +60,6 @@ export default function DevisPage() {
         if (!formData.typeLogement) newErrors.typeLogement = true;
         break;
       case 3:
-        // Au moins une option doit être cochée
         const hasSelection =
           formData.cuisine ||
           formData.salleDeBain ||
@@ -72,7 +72,6 @@ export default function DevisPage() {
       case 4:
       case 5:
       case 6:
-        // Pas de champs obligatoires
         break;
     }
 
@@ -93,18 +92,17 @@ export default function DevisPage() {
         ...prev,
         [name]: checked,
       }));
-      // Enlever l'erreur de rénovation dès qu'une case est cochée
       setErrors((prev) => ({ ...prev, renovation: false }));
     } else {
       setFormData((prev) => ({
         ...prev,
         [name]: value,
       }));
-      // Enlever l'erreur du champ dès qu'on tape dedans
       setErrors((prev) => ({ ...prev, [name]: false }));
     }
 
     if (success) setSuccess(false);
+    if (submitError) setSubmitError("");
   };
 
   const nextStep = () => {
@@ -119,13 +117,67 @@ export default function DevisPage() {
     setErrors({});
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSuccess(true);
-    setTimeout(() => {
-      setSuccess(false);
-      navigate(-1);
-    }, 2000);
+    setIsSubmitting(true);
+    setSubmitError("");
+
+    // Formater les pièces à rénover
+    const piecesRenovation = [];
+    if (formData.cuisine) piecesRenovation.push("Cuisine");
+    if (formData.salleDeBain) piecesRenovation.push("Salle de bain");
+    if (formData.peinture) piecesRenovation.push("Peinture");
+    if (formData.sols) piecesRenovation.push("Sols");
+    if (formData.electricitePlomberie) piecesRenovation.push("Électricité/Plomberie");
+    if (formData.renoComplete) piecesRenovation.push("Rénovation complète");
+
+    // Préparer les données pour Web3Forms
+    const dataToSend = {
+      access_key: "d6c18f99-8f9d-4ee7-97b8-d643879fc7aa",
+      subject: `Nouveau devis de ${formData.prenom} ${formData.nom}`,
+      from_name: `${formData.prenom} ${formData.nom}`,
+      name: `${formData.prenom} ${formData.nom}`,
+      email: formData.email,
+      telephone: formData.telephone,
+      creneau: formData.creneau || "Non spécifié",
+      ville: formData.ville,
+      code_postal: formData.codePostal,
+      type_logement: formData.typeLogement,
+      etage: formData.etage || "Non spécifié",
+      ascenseur: formData.ascenseur || "Non spécifié",
+      pieces_a_renover: piecesRenovation.join(", "),
+      surface: formData.surface || "Non spécifiée",
+      budget: formData.budget || "Non spécifié",
+      date_debut: formData.dateDebut || "Non spécifiée",
+      urgence: formData.urgence || "Non spécifiée",
+      description: formData.description || "Aucune description fournie",
+    };
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(dataToSend),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setSuccess(true);
+        setTimeout(() => {
+          navigate(-1);
+        }, 2000);
+      } else {
+        setSubmitError("Une erreur est survenue lors de l'envoi. Réessayez.");
+      }
+    } catch (error) {
+      setSubmitError("Erreur de connexion. Vérifiez votre connexion internet.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const progress = (currentStep / totalSteps) * 100;
@@ -185,7 +237,6 @@ export default function DevisPage() {
       <div className="relative z-10 flex items-center justify-center px-0 md:px-4 lg:px-8 py-8 md:py-24">
         <div className="w-full md:h-[85vh] flex items-center justify-center">
           <div className="bg-base-200/95 backdrop-blur-sm rounded-2xl md:rounded-3xl shadow-2xl w-[96%] md:w-[82%] xl:w-[80%] md:h-[85vh] flex flex-col md:flex-row overflow-hidden">
-            {/* Colonne gauche : image (35%) */}
             <div className="md:w-[35%] w-full h-40 sm:h-48 md:h-full relative">
               <div className="h-full w-full overflow-hidden">
                 <img
@@ -209,7 +260,6 @@ export default function DevisPage() {
               </div>
             </div>
 
-            {/* Colonne droite : formulaire (65%) */}
             <div className="md:w-[65%] w-full flex flex-col p-4 sm:p-5 md:p-8 lg:p-10 xl:p-12">
               <div className="mb-3 md:mb-6 text-center md:text-left">
                 <h1 className="text-lg sm:text-xl md:text-3xl lg:text-4xl font-bold text-yellow-500 mb-1.5 md:mb-3">
@@ -570,10 +620,11 @@ export default function DevisPage() {
                     {currentStep === totalSteps && (
                       <button
                         type="submit"
+                        disabled={isSubmitting}
                         className="btn btn-primary btn-sm md:btn-md text-xs md:text-base flex-1 md:flex-initial"
                       >
                         <Send className="w-3.5 h-3.5 md:w-5 md:h-5" />
-                        Envoyer
+                        {isSubmitting ? "Envoi..." : "Envoyer"}
                       </button>
                     )}
                   </div>
@@ -584,6 +635,13 @@ export default function DevisPage() {
                 <div className="alert alert-success mt-2 md:mt-4 flex items-center gap-2 text-xs md:text-base p-2 md:p-4">
                   <Check className="w-4 h-4 md:w-5 md:h-5" />
                   <span>Votre demande a bien été envoyée. Merci !</span>
+                </div>
+              )}
+
+              {submitError && (
+                <div className="alert alert-error mt-2 md:mt-4 flex items-center gap-2 text-xs md:text-base p-2 md:p-4">
+                  <AlertCircle className="w-4 h-4 md:w-5 md:h-5" />
+                  <span>{submitError}</span>
                 </div>
               )}
             </div>
